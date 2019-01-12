@@ -9,7 +9,7 @@ const strategy = new LocalStrategy(
         db.User.findOne({username:username}, (err, user)=>{
             if(err) return callback(err);
             if(!user) return callback(null, false, {message:'Incorrect UserName'});
-            if(!user.checkPassword(password)) return(null, false, {message: "Incorrect password"});
+            if(!user.checkPassword(password)) return callback(null, false, {message: "Incorrect password"});
             return callback(null, user);
         })
     }
