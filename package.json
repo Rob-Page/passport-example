@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "node server.js",
-    "start": "nodemon server.js"
+    "start": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && yarn install"
   },
   "repository": {
     "type": "git",
@@ -18,8 +20,15 @@
   },
   "homepage": "https://github.com/Rob-Page/passport-example#readme",
   "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.2.1",
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "mongoose": "^5.4.3",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
+    "reactstrap": "^7.0.2"
   }
 }
