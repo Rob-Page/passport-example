@@ -1,0 +1,25 @@
+{
+  "name": "passport-example",
+  "version": "1.0.0",
+  "description": "example of how to setup passport",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rob-Page/passport-example.git"
+  },
+  "author": "Rob Page",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rob-Page/passport-example/issues"
+  },
+  "homepage": "https://github.com/Rob-Page/passport-example#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.3",
+    "nodemon": "^1.18.9"
+  }
+}
