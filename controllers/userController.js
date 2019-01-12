@@ -1,5 +1,6 @@
 
 const db = require("./../models");
+const passport = require('./../services/passport');
 
 class userController {
     constructor() {
@@ -11,6 +12,10 @@ class userController {
             }
         );
 
+    }
+    logInUser(req, res){
+        console.log(req);
+        res.send("auth")
     }
     findAllUsers(req, res) {
 

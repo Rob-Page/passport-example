@@ -78,11 +78,11 @@ class NavBar extends Component {
                 </Navbar>
                 <SignUp 
                 modal={this.state.modal} 
+                toggleModal={this.toggleModal}
                 username={this.state.username} 
                 email={this.state.email} 
                 password={this.state.password}
                 inputHandler={this.inputHandler}
-                toggleModal={this.toggleModal}
                 signUp={this.signUp}
                 />
             </div>
