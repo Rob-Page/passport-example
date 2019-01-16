@@ -14,6 +14,9 @@ import {
     ModalFooter
 } from 'reactstrap';
 import SignUp from './SignUpModal';
+import SignIn from './SignInModal';
+import { FaUser } from 'react-icons/fa';
+import './NavBar.css';
 
 class NavBar extends Component {
     constructor(props) {
@@ -22,13 +25,31 @@ class NavBar extends Component {
         this.state = {
             isOpen: false,
             username: "",
-            password:"",
-            email:""
+            password: "",
+            email: "",
+            first_name: "",
+            last_name: "",
+            signUpModal: false,
+            signInModal: false,
+            signedUp: false
         };
     }
-    toggleModal = () => {
+    toggleSignInModal = () => {
         this.setState({
-            modal: !this.state.modal
+            signInModal: !this.state.signInModal,
+            username: "",
+            password: "",
+        });
+    }
+    toggleSignUpModal = () => {
+        this.setState({
+            signUpModal: !this.state.signUpModal,
+            username: "",
+            password: "",
+            email: "",
+            first_name: "",
+            last_name: "",
+            signedUp: false
         });
     }
     toggle = () => {
@@ -37,20 +58,28 @@ class NavBar extends Component {
         });
     }
     signIn = () => {
-
+        const { username, password } = this.state;
+        userAPI.loginUser({ username, password }).then(({ data }) => {
+            this.props.signInUser(data);
+            this.toggleSignInModal();
+        })
     }
     signOut = () => {
-
+        this.props.signOutUser();
     }
     signUp = () => {
-        const {username, email, password} = this.state
-        userAPI.createUser({username, email,password}).then((res)=>{
-            console.log(res);
+        const { username, email, password, first_name, last_name } = this.state
+        userAPI.createUser({ username, email, password, first_name, last_name }).then((res) => {
+            this.setState({ signedUp: true });
+            setTimeout(() => {
+                this.toggleSignUpModal();
+                this.toggleSignInModal();
+            }, 2000)
         });
     }
-    inputHandler = (e) =>{
-        const {name, value} = e.target;
-        this.setState({[name]:value});
+    inputHandler = (e) => {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
     render() {
         return (
@@ -62,28 +91,42 @@ class NavBar extends Component {
                         <Nav className="ml-auto" navbar>
                             <NavItem>
                                 {this.props.signedIn ?
-                                    <Button onClick={this.signIn}>SignIn</Button>
+                                    <div className="user-info">
+                                        <FaUser/><p>{this.props.user.username}</p>
+                                        <Button onClick={this.signOut}>SignOut</Button>
+                                    </div>
                                     :
-                                    <Button onClick={this.toggleModal}>SignUp</Button>
-                                }
-                            </NavItem>
-                            <NavItem>
-                                {this.props.signedIn ?
-                                    <Button onClick={this.signOut}>SignOut</Button>
-                                    : null
+                                    <div>
+                                        <Button onClick={this.toggleSignInModal}>SignIn</Button>
+                                        <Button onClick={this.toggleSignUpModal}>SignUp</Button>
+                                    </div>
                                 }
                             </NavItem>
                         </Nav>
                     </Collapse>
                 </Navbar>
-                <SignUp 
-                modal={this.state.modal} 
-                username={this.state.username} 
-                email={this.state.email} 
-                password={this.state.password}
-                inputHandler={this.inputHandler}
-                toggleModal={this.toggleModal}
-                signUp={this.signUp}
+                <SignUp
+                    modal={this.state.signUpModal}
+                    modalTitle={"Enter in information to sign up"}
+                    toggleModal={this.toggleSignUpModal}
+                    username={this.state.username}
+                    email={this.state.email}
+                    first_name={this.state.first_name}
+                    last_name={this.state.last_name}
+                    password={this.state.password}
+                    inputHandler={this.inputHandler}
+                    signUp={this.signUp}
+                    signedUp={this.state.signedUp}
+                />
+                <SignIn
+                    modalTitle={"Enter in information to sign in"}
+                    modal={this.state.signInModal}
+                    toggleModal={this.toggleSignInModal}
+                    username={this.state.username}
+                    email={this.state.email}
+                    password={this.state.password}
+                    inputHandler={this.inputHandler}
+                    signIn={this.signIn}
                 />
             </div>
         );
