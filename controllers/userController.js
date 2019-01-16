@@ -13,9 +13,14 @@ class userController {
         );
 
     }
-    logInUser(req, res){
-        console.log(req);
-        res.send("auth")
+    logInUser(req, res ){
+        const {username, password} = req.body;
+        console.log(username)
+        db.User.findOne({username:username}).then(results=>{
+            const {username, email, first_name, last_name, _id} = results;
+            res.json({username, email, first_name, last_name, _id});
+        })
+        // res.send("auth")
     }
     findAllUsers(req, res) {
 

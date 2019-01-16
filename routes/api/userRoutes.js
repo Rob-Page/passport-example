@@ -7,7 +7,7 @@ router
     .route('/create')
     .post(userController.createUser);
 
-router.use('/login', passport.authenticate('local'))
+router.route('/login',passport.authenticate('local'))
     .post(userController.logInUser);
 
 module.exports = router;
